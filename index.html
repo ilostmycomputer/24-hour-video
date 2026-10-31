@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <title>24 Hours</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="player.js" defer></script>
+</head>
+<body>
+  <main aria-label="24 Hours video">
+    <video id="video" playsinline preload="auto" disablepictureinpicture disableremoteplayback aria-label="24 Hours" src="assets/video.mp4"></video>
+    <button id="play" type="button" aria-label="Play video" hidden>
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M17 10 38 24 17 38Z"/></svg>
+    </button>
+    <p id="status" role="status" aria-live="polite"></p>
+    <noscript>Enable JavaScript to watch this video.</noscript>
+  </main>
+</body>
+</html>
