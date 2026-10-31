@@ -5,9 +5,24 @@ const status = document.getElementById('status');
 let finished = false;
 let starting = false;
 
-async function play() {
+function enterFullscreen() {
+  if (document.fullscreenElement || video.webkitDisplayingFullscreen) return;
+  const player = document.querySelector('main');
+  try {
+    if (player.requestFullscreen && document.fullscreenEnabled) {
+      player.requestFullscreen().catch(() => {});
+    } else if (video.webkitEnterFullscreen) {
+      video.webkitEnterFullscreen();
+    }
+  } catch (_) {
+    // Playback remains available if fullscreen is unsupported or denied.
+  }
+}
+
+async function play({ fullscreen = false } = {}) {
   if (finished || starting) return;
   starting = true;
+  if (fullscreen) enterFullscreen();
   try {
     await video.play();
     button.hidden = true;
@@ -18,16 +33,16 @@ async function play() {
   }
 }
 
-button.addEventListener('click', play);
+button.addEventListener('click', () => play({ fullscreen: true }));
 video.addEventListener('click', () => {
   if (finished) return;
-  if (video.paused) play();
+  if (video.paused) play({ fullscreen: true });
   else video.pause();
 });
 document.addEventListener('keydown', event => {
   if (event.target === button || event.repeat || finished || !['Space', 'KeyK'].includes(event.code)) return;
   event.preventDefault();
-  if (video.paused) play();
+  if (video.paused) play({ fullscreen: true });
   else video.pause();
 });
 video.addEventListener('pause', () => {
